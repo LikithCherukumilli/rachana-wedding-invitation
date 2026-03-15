@@ -274,3 +274,46 @@ border-radius:25px;
 text-decoration:none;
 margin-top:20px;
 }
+
+/* MUSIC BUTTON */
+
+.music-btn{
+
+position:fixed;
+bottom:20px;
+right:20px;
+
+width:55px;
+height:55px;
+
+border-radius:50%;
+
+background:#8b0000;
+
+color:white;
+
+display:flex;
+align-items:center;
+justify-content:center;
+
+font-size:22px;
+
+cursor:pointer;
+
+z-index:999;
+
+box-shadow:0 0 10px rgba(255,215,0,0.6);
+
+animation:pulse 2s infinite;
+
+}
+
+/* GLOW ANIMATION */
+
+@keyframes pulse{
+
+0%{box-shadow:0 0 8px rgba(255,215,0,0.5)}
+50%{box-shadow:0 0 18px rgba(255,215,0,0.9)}
+100%{box-shadow:0 0 8px rgba(255,215,0,0.5)}
+
+}
