@@ -115,6 +115,20 @@ drawPetals();
 
 drawPetals();
 
+/* HIDE SWIPE INDICATOR */
+
+const indicator=document.querySelector(".scroll-indicator");
+
+window.addEventListener("scroll",()=>{
+
+if(window.scrollY>50){
+
+indicator.style.opacity="0";
+indicator.style.pointerEvents="none";
+
+}
+
+});
 
 /* COUNTDOWN */
 
