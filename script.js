@@ -160,56 +160,57 @@ setInterval(updateCountdown, 1000);
 
 /* BACKGROUND MUSIC AUTOPLAY + FALLBACK */
 
+/* BACKGROUND MUSIC */
+
 const bgMusic = document.getElementById("bg-music");
 
-if (bgMusic) {
+if(bgMusic){
 
-  bgMusic.volume = 0.35;
-  bgMusic.loop = true;
+bgMusic.volume = 0.35;
 
-  /* Try autoplay */
+const musicBtn = document.createElement("div");
 
-  const playPromise = bgMusic.play();
+musicBtn.className = "music-btn";
 
-  if (playPromise !== undefined) {
-    playPromise.catch(() => {
+musicBtn.innerHTML = "🎵";
 
-      /* Start music on first user interaction */
+document.body.appendChild(musicBtn);
 
-      const startMusic = () => {
-        bgMusic.play();
-        document.removeEventListener("touchstart", startMusic);
-        document.removeEventListener("scroll", startMusic);
-      };
+/* Try autoplay */
 
-      document.addEventListener("touchstart", startMusic);
-      document.addEventListener("scroll", startMusic);
+bgMusic.play().catch(()=>{
 
-    });
-  }
+const startMusic = () => {
 
-  /* Music toggle button */
+bgMusic.play();
 
-  const btn = document.createElement("button");
+document.removeEventListener("touchstart", startMusic);
+document.removeEventListener("scroll", startMusic);
 
-  btn.id = "music-toggle";
-  btn.textContent = "Pause Music";
+};
 
-  btn.style.cssText =
-  "position:fixed;bottom:18px;right:18px;z-index:999;font-size:14px;padding:10px 14px;border:none;border-radius:20px;background:#8b0000;color:#fff;cursor:pointer;";
+document.addEventListener("touchstart", startMusic);
+document.addEventListener("scroll", startMusic);
 
-  document.body.appendChild(btn);
+});
 
-  btn.addEventListener("click", () => {
 
-    if (bgMusic.paused) {
-      bgMusic.play();
-      btn.textContent = "Pause Music";
-    } else {
-      bgMusic.pause();
-      btn.textContent = "Play Music";
-    }
+/* Toggle play/pause */
 
-  });
+musicBtn.addEventListener("click",()=>{
+
+if(bgMusic.paused){
+
+bgMusic.play();
+musicBtn.innerHTML="🎵";
+
+}else{
+
+bgMusic.pause();
+musicBtn.innerHTML="🔇";
+
+}
+
+});
 
 }
