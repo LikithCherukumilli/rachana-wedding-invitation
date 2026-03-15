@@ -158,40 +158,58 @@ function updateCountdown(){
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* BACKGROUND MUSIC Fallback and Controls */
-const bgMusic=document.getElementById("bg-music");
-if(bgMusic){
-  bgMusic.volume=0.35;
-  bgMusic.play().catch(()=>{
-    const btn=document.createElement("button");
-    btn.id="music-toggle";
-    btn.textContent="Play Music";
-    btn.style.cssText="position:fixed;bottom:18px;right:18px;z-index:999;font-size:14px;padding:10px 14px;border:none;border-radius:20px;background:#8b0000;color:#fff;cursor:pointer;";
-    document.body.appendChild(btn);
-    btn.addEventListener("click",()=>{
-      if(bgMusic.paused){
-        bgMusic.play().then(()=>{btn.textContent="Pause Music";});
-      } else {
-        bgMusic.pause();
-        btn.textContent="Play Music";
-      }
-    });
-  });
+/* BACKGROUND MUSIC AUTOPLAY + FALLBACK */
 
-  if(!bgMusic.paused){
-    const btn=document.createElement("button");
-    btn.id="music-toggle";
-    btn.textContent="Pause Music";
-    btn.style.cssText="position:fixed;bottom:18px;right:18px;z-index:999;font-size:14px;padding:10px 14px;border:none;border-radius:20px;background:#8b0000;color:#fff;cursor:pointer;";
-    document.body.appendChild(btn);
-    btn.addEventListener("click",()=>{
-      if(bgMusic.paused){
+const bgMusic = document.getElementById("bg-music");
+
+if (bgMusic) {
+
+  bgMusic.volume = 0.35;
+  bgMusic.loop = true;
+
+  /* Try autoplay */
+
+  const playPromise = bgMusic.play();
+
+  if (playPromise !== undefined) {
+    playPromise.catch(() => {
+
+      /* Start music on first user interaction */
+
+      const startMusic = () => {
         bgMusic.play();
-        btn.textContent="Pause Music";
-      } else {
-        bgMusic.pause();
-        btn.textContent="Play Music";
-      }
+        document.removeEventListener("touchstart", startMusic);
+        document.removeEventListener("scroll", startMusic);
+      };
+
+      document.addEventListener("touchstart", startMusic);
+      document.addEventListener("scroll", startMusic);
+
     });
   }
+
+  /* Music toggle button */
+
+  const btn = document.createElement("button");
+
+  btn.id = "music-toggle";
+  btn.textContent = "Pause Music";
+
+  btn.style.cssText =
+  "position:fixed;bottom:18px;right:18px;z-index:999;font-size:14px;padding:10px 14px;border:none;border-radius:20px;background:#8b0000;color:#fff;cursor:pointer;";
+
+  document.body.appendChild(btn);
+
+  btn.addEventListener("click", () => {
+
+    if (bgMusic.paused) {
+      bgMusic.play();
+      btn.textContent = "Pause Music";
+    } else {
+      bgMusic.pause();
+      btn.textContent = "Play Music";
+    }
+
+  });
+
 }
